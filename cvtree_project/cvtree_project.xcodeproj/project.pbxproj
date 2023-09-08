@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04F3919B2AAB04000046F28B /* cvtree_parallel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04F391992AAB04000046F28B /* cvtree_parallel.cpp */; };
 		04FCEBD12AAAB30D00773F0D /* improved.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04FCEBCD2AAAB30D00773F0D /* improved.cpp */; };
 		04FCEBD22AAAB30D00773F0D /* tidy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04FCEBCE2AAAB30D00773F0D /* tidy.cpp */; };
 /* End PBXBuildFile section */
@@ -26,6 +27,8 @@
 /* Begin PBXFileReference section */
 		045506B02AAAF16A0045BC86 /* tidy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tidy.cpp; sourceTree = "<group>"; };
 		045506B12AAAF16A0045BC86 /* improved.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = improved.cpp; sourceTree = "<group>"; };
+		04F391992AAB04000046F28B /* cvtree_parallel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cvtree_parallel.cpp; sourceTree = "<group>"; };
+		04F3919A2AAB04000046F28B /* cvtree_parallel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cvtree_parallel.hpp; sourceTree = "<group>"; };
 		04FCEBC32AAAB21900773F0D /* cvtree_project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cvtree_project; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FCEBCD2AAAB30D00773F0D /* improved.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = improved.cpp; sourceTree = "<group>"; };
 		04FCEBCE2AAAB30D00773F0D /* tidy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tidy.cpp; sourceTree = "<group>"; };
@@ -78,6 +81,8 @@
 				04FCEBCD2AAAB30D00773F0D /* improved.cpp */,
 				04FCEBD02AAAB30D00773F0D /* list.txt */,
 				04FCEBCE2AAAB30D00773F0D /* tidy.cpp */,
+				04F391992AAB04000046F28B /* cvtree_parallel.cpp */,
+				04F3919A2AAB04000046F28B /* cvtree_parallel.hpp */,
 				04FCEBD32AAADCDF00773F0D /* Information.md */,
 			);
 			path = cvtree_project;
@@ -140,6 +145,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04F3919B2AAB04000046F28B /* cvtree_parallel.cpp in Sources */,
 				04FCEBD12AAAB30D00773F0D /* improved.cpp in Sources */,
 				04FCEBD22AAAB30D00773F0D /* tidy.cpp in Sources */,
 			);
