@@ -28,10 +28,6 @@ void Init()
 	M1 = M2 * AA_NUMBER;		// M1 = AA_NUMBER ^ (LEN-1);
     // The number of k-mers         6-mers
 	M  = M1 *AA_NUMBER;			// M  = AA_NUMBER ^ (LEN);
-    cout << M << endl;
-    cout << M1 << endl;
-    cout << M2 << endl;
-    
 }
 
 class Bacteria
