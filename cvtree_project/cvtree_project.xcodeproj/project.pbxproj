@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04FCEBC72AAAB21900773F0D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04FCEBC62AAAB21900773F0D /* main.cpp */; };
 		04FCEBD12AAAB30D00773F0D /* improved.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04FCEBCD2AAAB30D00773F0D /* improved.cpp */; };
 		04FCEBD22AAAB30D00773F0D /* tidy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04FCEBCE2AAAB30D00773F0D /* tidy.cpp */; };
 /* End PBXBuildFile section */
@@ -25,12 +24,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		045506B02AAAF16A0045BC86 /* tidy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tidy.cpp; sourceTree = "<group>"; };
+		045506B12AAAF16A0045BC86 /* improved.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = improved.cpp; sourceTree = "<group>"; };
 		04FCEBC32AAAB21900773F0D /* cvtree_project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cvtree_project; sourceTree = BUILT_PRODUCTS_DIR; };
-		04FCEBC62AAAB21900773F0D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		04FCEBCD2AAAB30D00773F0D /* improved.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = improved.cpp; sourceTree = "<group>"; };
 		04FCEBCE2AAAB30D00773F0D /* tidy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tidy.cpp; sourceTree = "<group>"; };
 		04FCEBCF2AAAB30D00773F0D /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		04FCEBD02AAAB30D00773F0D /* list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = list.txt; sourceTree = "<group>"; };
+		04FCEBD32AAADCDF00773F0D /* Information.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Information.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,9 +45,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		045506AF2AAAF1470045BC86 /* Original Files */ = {
+			isa = PBXGroup;
+			children = (
+				045506B12AAAF16A0045BC86 /* improved.cpp */,
+				045506B02AAAF16A0045BC86 /* tidy.cpp */,
+			);
+			path = "Original Files";
+			sourceTree = "<group>";
+		};
 		04FCEBBA2AAAB21900773F0D = {
 			isa = PBXGroup;
 			children = (
+				045506AF2AAAF1470045BC86 /* Original Files */,
 				04FCEBC52AAAB21900773F0D /* cvtree_project */,
 				04FCEBC42AAAB21900773F0D /* Products */,
 			);
@@ -63,11 +74,11 @@
 		04FCEBC52AAAB21900773F0D /* cvtree_project */ = {
 			isa = PBXGroup;
 			children = (
-				04FCEBC62AAAB21900773F0D /* main.cpp */,
 				04FCEBCF2AAAB30D00773F0D /* data */,
 				04FCEBCD2AAAB30D00773F0D /* improved.cpp */,
 				04FCEBD02AAAB30D00773F0D /* list.txt */,
 				04FCEBCE2AAAB30D00773F0D /* tidy.cpp */,
+				04FCEBD32AAADCDF00773F0D /* Information.md */,
 			);
 			path = cvtree_project;
 			sourceTree = "<group>";
@@ -129,7 +140,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04FCEBC72AAAB21900773F0D /* main.cpp in Sources */,
 				04FCEBD12AAAB30D00773F0D /* improved.cpp in Sources */,
 				04FCEBD22AAAB30D00773F0D /* tidy.cpp in Sources */,
 			);
@@ -174,7 +184,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -232,7 +242,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -251,6 +261,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				"EXCLUDED_SOURCE_FILE_NAMES[arch=*]" = (
+					/Users/Shridhar/Library/Developer/Xcode/XCodeProjects/CAB401_Project/cvtree_project/Original,
+					"Files/*",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -259,6 +273,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				"EXCLUDED_SOURCE_FILE_NAMES[arch=*]" = (
+					/Users/Shridhar/Library/Developer/Xcode/XCodeProjects/CAB401_Project/cvtree_project/Original,
+					"Files/*",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

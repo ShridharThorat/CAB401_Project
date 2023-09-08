@@ -17,7 +17,7 @@
 //{
 //	M2 = 1;
 //	for (int i=0; i<LEN-2; i++)	// M2 = AA_NUMBER ^ (LEN-2);
-//		M2 *= AA_NUMBER;
+//		M2 *= AA_NUMBER; 
 //	M1 = M2 * AA_NUMBER;		// M1 = AA_NUMBER ^ (LEN-1);
 //	M  = M1 *AA_NUMBER;			// M  = AA_NUMBER ^ (LEN);
 //}
@@ -72,6 +72,7 @@
 //	}
 //
 //public:
+////  DIFFERENCE long* vector;
 //	long count;
 //	double* tv;
 //	long *ti;
@@ -79,18 +80,13 @@
 //	Bacteria(char* filename)
 //	{
 //		FILE* bacteria_file;
-////		errno_t OK = fopen_s(&bacteria_file, filename, "r");
-////		if (OK != 0)
-////		{
-////			fprintf(stderr, "Error: failed to open file %s\n", filename);
-////			exit(1);
-////		}
+//		errno_t OK = fopen_s(&bacteria_file, filename, "r");
 //
-//        bacteria_file = fopen(filename, "r");
-//        if (bacteria_file == NULL) {
-//            fprintf(stderr, "Error: failed to open file %s\n", filename);
-//            exit(1);
-//        }
+//		if (OK != 0)
+//		{
+//			fprintf(stderr, "Error: failed to open file %s\n", filename);
+//			exit(1);
+//		}
 //
 //		InitVectors();
 //
@@ -119,7 +115,7 @@
 //		double one_l_div_total[AA_NUMBER];
 //		for (int i=0; i<AA_NUMBER; i++)
 //			one_l_div_total[i] = (double)one_l[i] / total_l;
-//
+//		
 //		double* second_div_total = new double[M1];
 //		for (int i=0; i<M1; i++)
 //			second_div_total[i] = (double)second[i] / total_plus_complement;
@@ -151,7 +147,7 @@
 //			else
 //				i_mod_M1++;
 //
-//			if (stochastic > EPSILON)
+//			if (stochastic > EPSILON) 
 //			{
 //				t[i] = (vector[i] - stochastic) / stochastic;
 //				count++;
@@ -159,7 +155,7 @@
 //			else
 //				t[i] = 0;
 //		}
-//
+//		
 //		delete second_div_total;
 //		delete vector;
 //		delete second;
@@ -273,15 +269,15 @@
 //		}
 //}
 //
-////int main(int argc,char * argv[])
-////{
-////	time_t t1 = time(NULL);
-////
-////	Init();
-////	ReadInputFile("list.txt");
-////	CompareAllBacteria();
-////
-////	time_t t2 = time(NULL);
-////	printf("time elapsed: %lld seconds\n", t2 - t1);
-////	return 0;
-////}
+//int main(int argc,char * argv[])
+//{
+//	time_t t1 = time(NULL);
+//
+//	Init();
+//	ReadInputFile("list.txt");
+//	CompareAllBacteria();
+//
+//	time_t t2 = time(NULL);
+//	printf("time elapsed: %lld seconds\n", t2 - t1); 
+//	return 0;
+//}
