@@ -1,8 +1,10 @@
 // cd /Users/Shridhar/Library/Developer/Xcode/XCodeProjects/CAB401_Project/cvtree_project/cvtree_project
 // chpl -o tidy_chpl tidy.chpl; ./tidy_chpl
+// clear; chpl -o --no-warn-array-of-range tidy_chpl tidy.chpl; ./tidy_chpl
 use Math;
 use Time;
 use Random;
+use IO;
 
 var number_bacteria: int;
 var bacteria_name: string;
@@ -39,17 +41,17 @@ proc Init()
 class Bacteria
 {
     // TODO: Note No need for InitVectors since these variables are pre initialised in Chapel
+    var vector: [0..M-1] int;
     var second: [0..M1-1] int;
     var one_l: [0..AA_NUMBER-1] int;
     var indexs, total, total_l, complement: int;
-    var vector: [0..M-1] int;
     
     proc init_buffer(buffer: [0..LEN-2] string)
     {
         complement += 1;
         indexs = 0;
         for i in 0..LEN-2 do{
-            enc = encode(buffer[i]);
+            var enc = encode(buffer[i]);
             one_l[enc] += 1;
             total_l += 1;
             indexs = indexs * AA_NUMBER + enc;
@@ -58,17 +60,91 @@ class Bacteria
     }
     proc cont_buffer(ch: string)
     {
-        enc = encode(ch);
+        var enc = encode(ch);
         one_l[enc] += 1;
         total_l += 1;
-        index = (indexs * AA_NUMBER) + enc;
-        vector[index]  += 1;
-        total
+        var indx: int = enc;
+        indx += indexs * AA_NUMBER;
+        vector[indx] += 1;
+        total += 1;
+        indexs = (indexs % M2) * AA_NUMBER + enc;
+        second[indx] += 1;
+    }
+    
+    proc Bacteria(filename: string)
+    {
+        // Vectors intialised automatically
+        
+        var directory: string = "data/";
+        var filePath: string = directory + filename;
+
+        var bacteria_file = open(filePath, ioMode.r);
+        var fileReader = bacteria_file.reader();
+
+        try {
+            var ch: string;
+            var buffer: [0..LEN-2];
+            while (fileReader.readCodepoint()) {
+                ch = fileReader.readString(1);
+
+                if ch == ">" {
+                    // Read the header line
+                    while ch != '\n' {
+                        ch = fileReader.readString(1);
+                    }
+                } else if ch != '\n' {
+                    // Initialize the buffer with the first characters
+                    buffer[0] = ch;
+                    for i in 1..LEN-2 {
+                        buffer[i] = fileReader.readString(1);
+                    }
+                    init_buffer(buffer);
+                }
+            }
+        } catch e: EofError {
+            writeln("End of file", e);
+        }
     }
 }
 
+proc readBacteria(filename: string, bacteria: Bacteria) {
+    var directory: string = "data/";
+    var filePath: string = directory + filename;
+
+    var bacteria_file = open(filePath, ioMode.r);
+    var fileReader = bacteria_file.reader();
+
+    try {
+        var ch: string;
+        var buffer: [0..LEN-2];
+        while (fileReader.readCodepoint()) {
+            ch = fileReader.readString(1);
+
+            if ch == ">" {
+                // Read the header line
+                while ch != '\n' {
+                    ch = fileReader.readString(1);
+                }
+            } else if ch != '\n' {
+                // Initialize the buffer with the first characters
+                buffer[0] = ch;
+                for i in 1..LEN-2 {
+                    buffer[i] = fileReader.readString(1);
+                }
+                bacteria.init_buffer(buffer);
+            }
+        }
+    } catch e: EofError {
+        writeln("End of file", e);
+    }
+}
+
+
+
 proc main(){
-    Init();
+    var b1 = new Bacteria('AcMNPV.faa');
+//    Init();
+
 //    var t: stopwatch;
 //    t.start();
 //    for i in 0..LEN-3 do {

@@ -25,6 +25,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		042CBEF82AAC276000F871BA /* original_seq_data.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = original_seq_data.txt; sourceTree = "<group>"; };
 		045506B02AAAF16A0045BC86 /* tidy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tidy.cpp; sourceTree = "<group>"; };
 		045506B12AAAF16A0045BC86 /* improved.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = improved.cpp; sourceTree = "<group>"; };
 		047C5AE22AAB283D003AB6A5 /* tidy.chpl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tidy.chpl; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -78,6 +79,7 @@
 		04FCEBC52AAAB21900773F0D /* cvtree_project */ = {
 			isa = PBXGroup;
 			children = (
+				042CBEF82AAC276000F871BA /* original_seq_data.txt */,
 				047C5AE22AAB283D003AB6A5 /* tidy.chpl */,
 				04FCEBCF2AAAB30D00773F0D /* data */,
 				04FCEBCD2AAAB30D00773F0D /* improved.cpp */,
