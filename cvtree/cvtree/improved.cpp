@@ -59,8 +59,10 @@ private:
         {
             short enc = encode(buffer[i]);
             one_l[enc]++;
+//            cout << "enc " << i <<": is "<< enc << endl; // debugging
             total_l++;
             indexs = indexs * AA_NUMBER + enc;
+//            cout << "indexs " << i <<": is "<< indexs << endl; // debugging
         }
         second[indexs]++;
     }
@@ -68,12 +70,15 @@ private:
     void cont_buffer(char ch)
     {
         short enc = encode(ch);
+//        cout << "ch '" << ch <<"': enc: "<< enc << endl;
         one_l[enc]++;
         total_l++;
         long index = indexs * AA_NUMBER + enc;
+//        cout << "index: " << index << endl;
         vector[index]++;
         total++;
         indexs = (indexs % M2) * AA_NUMBER + enc;
+//        cout << "indexs: " << indexs << endl;
         second[indexs]++;
     }
 
@@ -95,8 +100,11 @@ public:
             fprintf(stderr, "Error: failed to open file %s\n", filename);
             exit(1);
         }
+        // Initialise Vectors to 0
         InitVectors();
-
+        
+        // Calculate k-mer, (k-1)-mer and 1-mer for entire bacteria
+        // TODO: the while, else-if can be parallelised but required 1) refactoring the sequential to something that can be better parallelised. Then 2) Create N threads - for each other character and do con_buffer simultaneously
         char ch;
         while ((ch = fgetc(bacteria_file)) != EOF)
         {
@@ -108,10 +116,11 @@ public:
                 fread(buffer, sizeof(char), LEN-1, bacteria_file);
                 init_buffer(buffer);
             }
-            else if (ch != '\n')
+            else if (ch != '\n' && ch != '\t' && ch != '\r')
                 cont_buffer(ch);
         }
-
+        
+        // not entirely sure but looks like `stochastic`
         long total_plus_complement = total + complement;
         double total_div_2 = total * 0.5;
         int i_mod_aa_number = 0;
@@ -161,12 +170,25 @@ public:
             }
             else
                 t[i] = 0;
+            
+//            cout << "p1: " << p1 << endl;
+//            cout << "p2: " << p1 << endl;
+//            cout << "p3: " << p1 << endl;
+//            cout << "p4: " << p1 << endl;
+//            cout << "stochastic: " << stochastic << endl;
+//            cout << "i_mod_aa_number: " << i_mod_aa_number << endl;
+//            cout << "i_div_aa_number: " << i_div_aa_number << endl;
+//            cout << "i_mod_M1: " << i_mod_M1 << endl;
+//            cout << "i_div_M1: " << i_div_M1 << endl;
+//            cout << "count: " << count << endl;
         }
-
+        
+        // Reset values
         delete[] second_div_total;
         delete vector;
         delete second;
-
+        
+        
         tv = new double[count];
         ti = new long[count];
 
@@ -212,6 +234,9 @@ void ReadInputFile(const char* input_name) // was const originally but not in th
 
 double CompareBacteria(Bacteria* b1, Bacteria* b2)
 {
+    cout << endl;
+    cout << "b1 count: " << b1->count << endl;
+    cout << "b2 count: " << b2->count << endl;
     double correlation = 0;
     double vector_len1=0;
     double vector_len2=0;

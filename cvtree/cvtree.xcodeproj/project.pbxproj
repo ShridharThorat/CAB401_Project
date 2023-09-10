@@ -34,7 +34,7 @@
 		0497D8C82AACA61D007D62C0 /* list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = list.txt; sourceTree = "<group>"; };
 		0497D8C92AACA61D007D62C0 /* tidy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tidy.cpp; sourceTree = "<group>"; };
 		0497D8CA2AACA61D007D62C0 /* Information.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Information.md; sourceTree = "<group>"; };
-		0497D8CB2AACA61D007D62C0 /* tidy.chpl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tidy.chpl; sourceTree = "<group>"; };
+		0497D8CB2AACA61D007D62C0 /* improved.chpl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = improved.chpl; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		0497D8CC2AACA61D007D62C0 /* improved.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = improved.cpp; sourceTree = "<group>"; };
 		0497D8CD2AACA61D007D62C0 /* cvtree_parallel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cvtree_parallel.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,7 +76,7 @@
 				0497D8CC2AACA61D007D62C0 /* improved.cpp */,
 				0497D8CA2AACA61D007D62C0 /* Information.md */,
 				0497D8C82AACA61D007D62C0 /* list.txt */,
-				0497D8CB2AACA61D007D62C0 /* tidy.chpl */,
+				0497D8CB2AACA61D007D62C0 /* improved.chpl */,
 				0497D8C92AACA61D007D62C0 /* tidy.cpp */,
 				0497D8BE2AACA5C3007D62C0 /* main.cpp */,
 			);
