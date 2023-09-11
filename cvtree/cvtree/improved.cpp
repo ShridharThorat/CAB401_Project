@@ -269,13 +269,13 @@ double CompareBacteria(Bacteria* b1, Bacteria* b2)
     }
     while (p1 < b1->count)
     {
-        long n1 = b1->ti[p1];
+//        long n1 = b1->ti[p1];
         double t1 = b1->tv[p1++];
         vector_len1 += (t1 * t1);
     }
     while (p2 < b2->count)
     {
-        long n2 = b2->ti[p2];
+//        long n2 = b2->ti[p2];
         double t2 = b2->tv[p2++];
         vector_len2 += (t2 * t2);
     }
@@ -306,9 +306,6 @@ int main(int argc,char * argv[])
     time_t t1 = time(NULL);
 
     Init();
-///Users/Shridhar/Library/Developer/Xcode/DerivedData/cvtree-bbjdvmftesrwzvfpoogtxbaxdvqw/Build/Products/Debug
-    std::filesystem::path currentPath = std::filesystem::current_path();
-        std::cout << "Current working directory: " << currentPath << std::endl;
     ReadInputFile("list.txt");
     CompareAllBacteria();
 

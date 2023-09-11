@@ -5,6 +5,7 @@ use Math;
 use Time;
 use Random;
 use IO;
+use IO.FormattedIO;
 use Path;
 
 var number_bacteria: int;
@@ -53,7 +54,7 @@ class Bacteria
     var count: int;
     var tv_ti_dom = {0..-1};
     var tv: [tv_ti_dom] real;
-    var ti: [tv_ti_dom] real;
+    var ti: [tv_ti_dom] int;
     
     proc InitVectors()
     {
@@ -95,6 +96,12 @@ class Bacteria
         this.indexs = (indexs % M2) * AA_NUMBER + enc;
 //        writeln("indexs: ", indexs); // debugging
         this.second[indexs] += 1;
+    }
+    
+    proc init()
+    {
+        this.complete();
+        this.InitVectors();
     }
     
     // Chapel's styling for constructors
@@ -161,25 +168,11 @@ class Bacteria
                 count += 1;
             }
             else { t[i] = 0; }
-            
-//            writeln("p1: ", p1);
-//            writeln("p2: ", p1);
-//            writeln("p3: ", p1);
-//            writeln("p4: ", p1);
-//            writeln("stochastic: ", stochastic);
-//            writeln("i_mod_aa_number: ", i_mod_aa_number);
-//            writeln("i_div_aa_number: ", i_div_aa_number);
-//            writeln("i_mod_M1: ", i_mod_M1);
-//            writeln("i_div_M1: ", i_div_M1);
-//            writeln("count: ", count);
         }
         
         // Reset values TODO: Figure out how to do this in chapel
-//        delete second_div_total;
-//        delete this.vector;
-//        delete this.second;
         
-        tv_ti_dom = {0..this.count-1}; // implicitly resize ti and tv
+        tv_ti_dom = {0..(this.count-1)}; // implicitly resize ti and tv
         
         var pos: int = 0;
         for i in 0..lastVectorIndex do
@@ -195,8 +188,6 @@ class Bacteria
 
     }
     
-    proc get_count(): int { return this.count; }
-    
     proc readBacteria(filename: string)
     {
         try{
@@ -207,7 +198,7 @@ class Bacteria
             var bacteria_file_reader = bacteria_file.reader();
             var line: string;
             var ch: string;
-            writeln("\nReading file: ", filename); // debugging
+//            writeln("Reading file: ", filename); // debugging
             while (bacteria_file_reader.readString(ch,1))
             {
                 if ch == ">" then
@@ -222,27 +213,6 @@ class Bacteria
                     // writeln("buffer_string: ", buffer_string); // debugging
                     init_buffer(buffer_string);
                     
-                    /*
-                     * var i: int = 0;
-                     * var j: int = LEN-2;
-                     * var lastIndex: int = line.size - 1;
-                     * var buffer_string: string;
-                     * while(j<lastIndex-1)
-                     * {
-                     *     buffer_string = line[i..j];
-                     *     writeln(buffer_string);
-                     *
-                     *     i += 1;
-                     *     j += 1;
-                     * }
-                     * buffer_string = line[0..LEN-1];
-                     * line = line.strip('\n'); // safety
-                     * line = line.strip('\t');
-                     * line = line.strip('\r'); // Note: this is the real problem
-                     * writeln("\nline number ", i, " is \n", buffer_string);
-                     * i += 1;
-                     */
-                    
                 }
                 else if ch != "\n" && ch != "\t" && ch != "\r"  then
                 {
@@ -250,7 +220,7 @@ class Bacteria
                 }
             }
             bacteria_file.close();
-            writeln("FINISHED: ", filename); // debugging
+//            writeln("FINISHED: ", filename); // debugging
         } catch e: EofError {
             writeln("r is at EOF");
         } catch e: UnexpectedEofError {
@@ -262,6 +232,12 @@ class Bacteria
         }
         
     }
+    
+    proc get_count(): int { return this.count; }
+//    proc get_ti(): [tv_ti_dom] real {return this.ti;}
+    proc get_ti(i: int): int {return this.ti[i]; }
+//    proc get_tv(): [tv_ti_dom] real {return this.tv;}
+    proc get_tv(i: int): real {return this.tv[i]; }
 }
 
 proc ReadInputFile(input_name: string)
@@ -277,9 +253,11 @@ proc ReadInputFile(input_name: string)
         writeln("number_bacteria: ", number_bacteria); // debugging
         var end = number_bacteria - 1;
         bacteria_domain = {0..end}; // implicty resizing of size of bacteria_name
-        
+
+//        forall i in 0..end do
         for i in 0..end do
         {
+//            var line: string;
             input_file_reader.readLine(line);
             line = line.strip('\n'); // safety
             line = line.strip('\t');
@@ -312,29 +290,111 @@ proc ReadInputFile(input_name: string)
     }
 }
 
-proc CompareBacteria(b1: Bacteria, b2: Bacteria)
+proc CompareBacteria(b1: Bacteria, b2: Bacteria): real
 {
-    var correlation: real;
-    var vector_len1: real;
-    var vector_len2: real;
-    var p1: int;
-    var p2: int;
     writeln("b1 count: ", b1.get_count());
-    writeln("b2 count: ", b2    .get_count());
-//    b1 count: 57987
-//    b2 count: 49625
+    writeln("b2 count: ", b2.get_count());
+    var correlation: real = 0.0;
+    var vector_len1: real = 0.0;
+    var vector_len2: real = 0.0;
+    var p1: int = 0;
+    var p2: int = 0;
     
-//    b1 count:1560781
-//    b2 count:1337493
+    var b1_count: int = b1.get_count();
+    var b2_count: int = b2.get_count();
+    
+    var i: int = 0;
+    while p1 < b1_count && p2 < b2_count do
+    {
+        if i==0 then {writeln("first area"); i+=1;}
+        var n1: int = b1.get_ti(p1);
+        var n2: int = b2.get_ti(p2);
+        
+        if n1 < n2 then
+        {
+            var t1: real = b1.get_tv(p1);
+            vector_len1 = vector_len1 + (t1 * t1);
+            p1 += 1;
+        }
+        else if n1 > n2 then
+        {
+            var t2: real = b2.get_tv(p2);
+            p2 += 1;
+            vector_len2 = vector_len2 + (t2 * t2);
+        }
+        else
+        {
+            var t1: real = b1.get_tv(p1);
+            var t2: real = b2.get_tv(p2);
+            vector_len1 += (t1 * t1);
+            vector_len2 += (t2 * t2);
+            correlation += (t1 * t2);
+            p1 += 1;
+            p2 += 1;
+        }
+    }
+    i=0;
+    while (p1 < b1_count)
+    {
+        if i==0 then {writeln("second area"); i+=1;}
+        var t1: real = b1.get_tv(p1);
+        vector_len1 += (t1 * t1);
+        p1 += 1;
+    }
+    i=0;
+    while (p2 < b2_count)
+    {
+        if i==0 then {writeln("third area"); i+=1;}
+        var t2: real = b2.get_tv(p2);
+        vector_len2 += (t2 * t2);
+        p2 += 1;
+    }
+    
+    return correlation / (sqrt(vector_len1) * sqrt(vector_len2));
 }
+
+proc CompareAllBacteria()
+{
+    var b: [0..number_bacteria-1] Bacteria;
+    var correlation: real;
     
+    // Load Bacteria
+    for i in 0..number_bacteria-1 do
+    {
+        writeln("load ", i+1, " of ", number_bacteria);
+        b[i] = new Bacteria(bacteria_name[i]);
+    }
+    
+    // Comparison
+    for i in 0..number_bacteria-2 do
+    {
+        for j in i+1..number_bacteria-1 do
+        {
+            correlation = CompareBacteria(b[i], b[j]);
+            writeln(i, " -> ", j, ": ", correlation);
+        }
+    }
+}
+
 proc main(){
-    Init();
-    ReadInputFile("list.txt");
-    var firstFile: string = bacteria_name[0];
-    var secondFile: string = bacteria_name[1];
-    var b1 = new Bacteria(firstFile);
-    var b2 = new Bacteria(secondFile);
-    CompareBacteria(b1,b2);
+    var temp: real = 0.03363286346937661986;
+    writef("%.20dr\n", temp);
+//    var t: stopwatch;
+//    t.start();
+//    Init();
+//    t.stop();
+//    writeln("Initialise Vectors: ", t.elapsed()*1000, " milliseconds");
+//    t.clear();
+//
+//    t.start();
+//    ReadInputFile("list.txt");
+//    t.stop();
+//    writeln("Read Input File: ", t.elapsed()*1000, " milliseconds");
+//    t.clear();
+//
+//    t.start();
+//    CompareAllBacteria();
+//    t.stop();
+//    writeln("time elapsed: ",t.elapsed(), " seconds\n",  " seconds");
 }
 
