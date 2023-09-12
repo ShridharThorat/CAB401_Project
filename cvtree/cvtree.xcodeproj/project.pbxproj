@@ -11,6 +11,7 @@
 		0497D8CE2AACA61D007D62C0 /* cvtree_parallel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8C72AACA61D007D62C0 /* cvtree_parallel.cpp */; };
 		0497D8CF2AACA61D007D62C0 /* tidy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8C92AACA61D007D62C0 /* tidy.cpp */; };
 		0497D8D02AACA61D007D62C0 /* improved.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8CC2AACA61D007D62C0 /* improved.cpp */; };
+		04AA9E9C2AB0015F003A1BA6 /* libomp.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04AA9E9B2AB0015F003A1BA6 /* libomp.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,7 @@
 		0497D8CB2AACA61D007D62C0 /* improved.chpl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = improved.chpl; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		0497D8CC2AACA61D007D62C0 /* improved.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = improved.cpp; sourceTree = "<group>"; };
 		0497D8CD2AACA61D007D62C0 /* cvtree_parallel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cvtree_parallel.hpp; sourceTree = "<group>"; };
+		04AA9E9B2AB0015F003A1BA6 /* libomp.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libomp.dylib; path = ../../../../../../../../opt/homebrew/Cellar/libomp/16.0.6/lib/libomp.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04AA9E9C2AB0015F003A1BA6 /* libomp.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +58,7 @@
 			children = (
 				0497D8BD2AACA5C3007D62C0 /* cvtree */,
 				0497D8BC2AACA5C3007D62C0 /* Products */,
+				04AA9E9A2AB0015F003A1BA6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,6 +85,14 @@
 				0497D8BE2AACA5C3007D62C0 /* main.cpp */,
 			);
 			path = cvtree;
+			sourceTree = "<group>";
+		};
+		04AA9E9A2AB0015F003A1BA6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				04AA9E9B2AB0015F003A1BA6 /* libomp.dylib */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,7 +274,22 @@
 		0497D8C32AACA5C3007D62C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CC = "/opt/homebrew/Cellar/llvm@14/14.0.6/bin/clang";
+				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_STYLE = Automatic;
+				COMPILER_INDEX_STORE_ENABLE = NO;
+				HEADER_SEARCH_PATHS = (
+					"/opt/homebrew/Cellar/llvm@14/14.0.6/lib/clang/14.0.6/include",
+					"/opt/homebrew/Cellar/llvm@14/14.0.6/include/llvm",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"/usr/bin/llvm-g++",
+					usr/lib,
+					"/opt/homebrew/Cellar/llvm@14/14.0.6/include/llvm",
+					"/opt/homebrew/Cellar/llvm@14/14.0.6/lib",
+					/opt/homebrew/Cellar/libomp/16.0.6/lib,
+				);
+				OTHER_CFLAGS = "-fopenmp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -270,7 +297,22 @@
 		0497D8C42AACA5C3007D62C0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CC = "/opt/homebrew/Cellar/llvm@14/14.0.6/bin/clang";
+				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_STYLE = Automatic;
+				COMPILER_INDEX_STORE_ENABLE = NO;
+				HEADER_SEARCH_PATHS = (
+					"/opt/homebrew/Cellar/llvm@14/14.0.6/lib/clang/14.0.6/include",
+					"/opt/homebrew/Cellar/llvm@14/14.0.6/include/llvm",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"/usr/bin/llvm-g++",
+					usr/lib,
+					"/opt/homebrew/Cellar/llvm@14/14.0.6/include/llvm",
+					"/opt/homebrew/Cellar/llvm@14/14.0.6/lib",
+					/opt/homebrew/Cellar/libomp/16.0.6/lib,
+				);
+				OTHER_CFLAGS = "-fopenmp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
