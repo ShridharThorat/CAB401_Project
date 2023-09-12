@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0497D8BF2AACA5C3007D62C0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8BE2AACA5C3007D62C0 /* main.cpp */; };
+		0497D8BF2AACA5C3007D62C0 /* improved-seq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8BE2AACA5C3007D62C0 /* improved-seq.cpp */; };
 		0497D8CE2AACA61D007D62C0 /* cvtree_parallel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8C72AACA61D007D62C0 /* cvtree_parallel.cpp */; };
 		0497D8CF2AACA61D007D62C0 /* tidy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8C92AACA61D007D62C0 /* tidy.cpp */; };
 		0497D8D02AACA61D007D62C0 /* improved.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8CC2AACA61D007D62C0 /* improved.cpp */; };
@@ -28,7 +28,7 @@
 
 /* Begin PBXFileReference section */
 		0497D8BB2AACA5C3007D62C0 /* cvtree */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cvtree; sourceTree = BUILT_PRODUCTS_DIR; };
-		0497D8BE2AACA5C3007D62C0 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		0497D8BE2AACA5C3007D62C0 /* improved-seq.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "improved-seq.cpp"; sourceTree = "<group>"; };
 		0497D8C52AACA61D007D62C0 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		0497D8C62AACA61D007D62C0 /* cvtree_original_seq.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cvtree_original_seq.txt; sourceTree = "<group>"; };
 		0497D8C72AACA61D007D62C0 /* cvtree_parallel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cvtree_parallel.cpp; sourceTree = "<group>"; };
@@ -82,7 +82,7 @@
 				0497D8C82AACA61D007D62C0 /* list.txt */,
 				0497D8CB2AACA61D007D62C0 /* improved.chpl */,
 				0497D8C92AACA61D007D62C0 /* tidy.cpp */,
-				0497D8BE2AACA5C3007D62C0 /* main.cpp */,
+				0497D8BE2AACA5C3007D62C0 /* improved-seq.cpp */,
 			);
 			path = cvtree;
 			sourceTree = "<group>";
@@ -152,7 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0497D8BF2AACA5C3007D62C0 /* main.cpp in Sources */,
+				0497D8BF2AACA5C3007D62C0 /* improved-seq.cpp in Sources */,
 				0497D8CE2AACA61D007D62C0 /* cvtree_parallel.cpp in Sources */,
 				0497D8CF2AACA61D007D62C0 /* tidy.cpp in Sources */,
 				0497D8D02AACA61D007D62C0 /* improved.cpp in Sources */,
@@ -283,8 +283,6 @@
 					"/opt/homebrew/Cellar/llvm@14/14.0.6/include/llvm",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"/usr/bin/llvm-g++",
-					usr/lib,
 					"/opt/homebrew/Cellar/llvm@14/14.0.6/include/llvm",
 					"/opt/homebrew/Cellar/llvm@14/14.0.6/lib",
 					/opt/homebrew/Cellar/libomp/16.0.6/lib,
@@ -306,8 +304,6 @@
 					"/opt/homebrew/Cellar/llvm@14/14.0.6/include/llvm",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"/usr/bin/llvm-g++",
-					usr/lib,
 					"/opt/homebrew/Cellar/llvm@14/14.0.6/include/llvm",
 					"/opt/homebrew/Cellar/llvm@14/14.0.6/lib",
 					/opt/homebrew/Cellar/libomp/16.0.6/lib,

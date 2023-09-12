@@ -20,6 +20,9 @@
 #include <fstream>
 #include "/opt/homebrew/Cellar/libomp/16.0.6/include/omp.h"
 
+#include <os/signpost.h>
+#include <os/log.h>
+
 // Macros
 #define encode(ch) code[ch-'A']
 #define LEN 6

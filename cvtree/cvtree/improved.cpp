@@ -90,7 +90,7 @@
 //    Bacteria(char* filename)
 //    {
 //        // Add folder directory
-//        string directory = "data/";
+//        string directory = "/Users/Shridhar/Library/Developer/Xcode/XCodeProjects/CAB401_Project/cvtree/cvtree/data/";
 //        string filePath = directory.append(filename);
 //
 //        // Get the file
@@ -306,7 +306,7 @@
 //    time_t t1 = time(NULL);
 //
 //    Init();
-//    ReadInputFile("list.txt");
+//    ReadInputFile("/Users/Shridhar/Library/Developer/Xcode/XCodeProjects/CAB401_Project/cvtree/cvtree/list.txt");
 //    CompareAllBacteria();
 //
 //    time_t t2 = time(NULL);

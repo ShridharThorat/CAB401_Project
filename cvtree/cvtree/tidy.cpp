@@ -217,8 +217,6 @@
 //// TODO: Profile this method -- very similar to matrix multiplication where you can simply have a thread for each comparison. Though you don't want to compare a bacteria to one that's already been compared to so be careful
 //void CompareAllBacteria()
 //{
-////    ofstream original_data("original_seq_data.txt");
-//
 //    for(int i=0; i<number_bacteria-1; i++) // For each bacteria
 //	{
 //		Bacteria* b1 = new Bacteria(bacteria_name[i]); // create a bacteria (from a file)
@@ -228,7 +226,6 @@
 //			Bacteria* b2 = new Bacteria(bacteria_name[j]);
 //			double correlation = CompareBacteria(b1, b2); // TODO: Parallelisation can be done here
 //			printf("%03d %03d -> %.10lf\n", i, j, correlation);
-////            original_data << std::setw(3) << std::setfill('0') << i << " " << std::setw(3) << std::setfill('0') << j << " -> " << std::fixed << std::setprecision(10) << correlation << std::endl;
 //			delete b2;
 //		}
 //		delete b1;
