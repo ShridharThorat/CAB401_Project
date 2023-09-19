@@ -15,13 +15,15 @@
 #include <math.h>
 #include <string>
 #include <cstring>
+#include <cstdlib>
 #include <chrono>
 #include <iostream>
 #include <fstream>
 #include "/opt/homebrew/Cellar/libomp/16.0.6/include/omp.h"
+#include <vector>
 
-#include <os/signpost.h>
-#include <os/log.h>
+//#include <os/signpost.h>
+//#include <os/log.h>
 
 // Macros
 #define encode(ch) code[ch-'A']

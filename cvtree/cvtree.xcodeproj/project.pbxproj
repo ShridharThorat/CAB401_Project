@@ -11,7 +11,8 @@
 		0497D8CE2AACA61D007D62C0 /* cvtree_parallel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8C72AACA61D007D62C0 /* cvtree_parallel.cpp */; };
 		0497D8CF2AACA61D007D62C0 /* tidy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8C92AACA61D007D62C0 /* tidy.cpp */; };
 		0497D8D02AACA61D007D62C0 /* improved.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8CC2AACA61D007D62C0 /* improved.cpp */; };
-		04AA9E9C2AB0015F003A1BA6 /* libomp.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04AA9E9B2AB0015F003A1BA6 /* libomp.dylib */; };
+		04C270C12AB985D1007C8D60 /* libomp.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04AA9E9B2AB0015F003A1BA6 /* libomp.dylib */; };
+		04C270C32AB999BB007C8D60 /* weird.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C270C22AB999BB007C8D60 /* weird.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +40,7 @@
 		0497D8CC2AACA61D007D62C0 /* improved.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = improved.cpp; sourceTree = "<group>"; };
 		0497D8CD2AACA61D007D62C0 /* cvtree_parallel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cvtree_parallel.hpp; sourceTree = "<group>"; };
 		04AA9E9B2AB0015F003A1BA6 /* libomp.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libomp.dylib; path = ../../../../../../../../opt/homebrew/Cellar/libomp/16.0.6/lib/libomp.dylib; sourceTree = "<group>"; };
+		04C270C22AB999BB007C8D60 /* weird.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = weird.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04AA9E9C2AB0015F003A1BA6 /* libomp.dylib in Frameworks */,
+				04C270C12AB985D1007C8D60 /* libomp.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +85,7 @@
 				0497D8CB2AACA61D007D62C0 /* improved.chpl */,
 				0497D8C92AACA61D007D62C0 /* tidy.cpp */,
 				0497D8BE2AACA5C3007D62C0 /* improved-seq.cpp */,
+				04C270C22AB999BB007C8D60 /* weird.cpp */,
 			);
 			path = cvtree;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C270C32AB999BB007C8D60 /* weird.cpp in Sources */,
 				0497D8BF2AACA5C3007D62C0 /* improved-seq.cpp in Sources */,
 				0497D8CE2AACA61D007D62C0 /* cvtree_parallel.cpp in Sources */,
 				0497D8CF2AACA61D007D62C0 /* tidy.cpp in Sources */,
