@@ -20,6 +20,7 @@ private:
     long* vector;
     long* second;
     long one_l[AA_NUMBER];
+//    long* one_l;
     long indexs;
     long total;
     long total_l;
@@ -29,6 +30,7 @@ private:
     {
         vector = new long [M];
         second = new long [M1];
+//        one_l = new long [AA_NUMBER];
         memset(vector, 0, M * sizeof(long));
         memset(second, 0, M1 * sizeof(long));
         memset(one_l, 0, AA_NUMBER * sizeof(long));
@@ -152,6 +154,7 @@ public:
         delete[] second_div_total;
         delete vector;
         delete second;
+//        delete one_l;
 
 
         tv = new double[count];
@@ -244,52 +247,79 @@ double CompareBacteria(Bacteria* b1, Bacteria* b2)
 
 void CompareAllBacteria()
 {
-    // Para-02-start: A bit more work, partition loading into independent sections
+    // Para-02-version-1-start: A bit more work, partition loading into independent sections
     // each nested for loop is its own, independent
-    int partitions = 3; // totalThreads - 1: Can be maximum of 7
-    vector<thread> threads;
+//    int partitions = 3; // totalThreads - 1: Can be maximum of 7
+//    vector<thread> threads;
+//    
+//    Bacteria** b = new Bacteria*[number_bacteria];
+//    int start = 0;
+//    int end = 0;
+//    for(int i=0; i<partitions; ++i)
+//    {
+//        start = i*(number_bacteria/partitions);
+//        end = (i+1) * (number_bacteria/partitions);
+//        
+//        threads.emplace_back([start,end, b]()
+//        {
+//            for(int j = start; j <end; j++)
+//            {
+//                printf("load %d of %d\n", j+1, number_bacteria);
+//                b[j] = new Bacteria(bacteria_name[j]);
+//            }
+//        });
+//    }
+//    // Wait for threads to finish: prevents errors, bugs and 'kills' threads
+//    // Failing to join the threads can lead to issues like accessing resources that are being modified by the
+//    //      threads or not properly releasing thread-related resources, causing errors and unexpected behavior.
+//    // When you join the threads, you are essentially waiting for each thread to finish its work before continuing
+//    //      with the rest of the program. This ensures that all threads have completed their tasks before you
+//    //      proceed with any further actions that depend on the results of those threads.
+//    for (auto& thread : threads)
+//    {
+//        thread.join();
+//    }
+//    
+//    // Do left over sequentially
+//    if(end!=number_bacteria)
+//    {
+//        for(int k=end; k<number_bacteria;k++)
+//        {
+//            printf("leftover load %d of %d\n", k+1, number_bacteria);
+//            b[k] = new Bacteria(bacteria_name[k]);
+//        }
+//    }
+    // Para-02-version-1-end
     
+    int num_threads = 6;
+    // num_threads = 01: 32 seconds
+    // num_threads = 02: 21 seconds
+    // num_threads = 03: 16 seconds
+    // num_threads = 04: 15 seconds
+    // num_threads = 05: 14 seconds
+    // num_threads = 06: 13 seconds
+    // num_threads = 07: 14 seconds
+    // num_threads = 08: 14 seconds
+    // num_threads = 09: 13 seconds
+    // num_threads = 10: 15 seconds
+    // num_threads = 11: 15 seconds
+    // num_threads = 12: 15 seconds
+    // num_threads = 13: 15 seconds
+    // num_threads = 14: 15 seconds
+    // num_threads = 15: 15 seconds
+    // num_threads = 16: 15 seconds
+    
+    // Para-02-version-2: Same speedup compared to version-1
     Bacteria** b = new Bacteria*[number_bacteria];
-    int start = 0;
-    int end = 0;
-    for(int i=0; i<partitions; ++i)
+    #pragma omp parallel for num_threads(num_threads)
+    for (int i = 0; i<number_bacteria; i++)
     {
-        start = i*(number_bacteria/partitions);
-        end = (i+1) * (number_bacteria/partitions);
-        
-        threads.emplace_back([start,end, b]()
-        {
-            for(int j = start; j <end; j++)
-            {
-                printf("load %d of %d\n", j+1, number_bacteria);
-                b[j] = new Bacteria(bacteria_name[j]);
-            }
-        });
-    }
-    // Wait for threads to finish: prevents errors, bugs and 'kills' threads
-    // Failing to join the threads can lead to issues like accessing resources that are being modified by the
-    //      threads or not properly releasing thread-related resources, causing errors and unexpected behavior.
-    // When you join the threads, you are essentially waiting for each thread to finish its work before continuing
-    //      with the rest of the program. This ensures that all threads have completed their tasks before you
-    //      proceed with any further actions that depend on the results of those threads.
-    for (auto& thread : threads)
-    {
-        thread.join();
+        printf("load %d of %d RUNNING ON THREAD: %d \n", i + 1, number_bacteria, omp_get_thread_num());
+        b[i] = new Bacteria(bacteria_name[i]);
     }
     
-    // Do left over sequentially
-    if(end!=number_bacteria)
-    {
-        for(int k=end; k<number_bacteria;k++)
-        {
-            printf("leftover load %d of %d\n", k+1, number_bacteria);
-            b[k] = new Bacteria(bacteria_name[k]);
-        }
-    }
-    // Para-02-end
     
     // Para-01: Straightforward parallelisation
-    int num_threads = 8;
     #pragma omp parallel for num_threads(num_threads)
     for(int i=0; i<number_bacteria-1; i++)
     {
