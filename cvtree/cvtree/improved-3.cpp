@@ -245,9 +245,266 @@ double CompareBacteria(Bacteria* b1, Bacteria* b2)
     return correlation / (sqrt(vector_len1) * sqrt(vector_len2));
 }
 
+double CompareBacteria_parallel(Bacteria* b1, Bacteria* b2)
+{
+    double correlation = 0;
+    double vector_len1=0;
+    double vector_len2=0;
+    long p1 = 0;
+    long p2 = 0;
+    
+    int num_threads = 4;
+    
+    // Calculate the size of each part
+    long b1_part_size = b1->count / num_threads;
+    int b1_remainder = b1->count % num_threads;
+    
+    long b2_part_size = b2->count / num_threads;
+    int b2_remainder = b2->count % num_threads;
+
+    // Create a vector to store the parts
+    vector<long> b1_count_thread(num_threads, b1_part_size);
+    vector<long> b2_count_thread(num_threads, b2_part_size);
+
+    // Distribute the remainder equally among the first 'remainder' parts
+    for (int i = 0; i < b1_remainder; i++) {
+        b1_count_thread[i]++;
+    }
+    for (int i = 0; i < b2_remainder; i++) {
+        b2_count_thread[i]++;
+    }
+            
+    // Separating variables into `num_thread` partitions
+    long p1_thread[num_threads];
+    long p2_thread[num_threads];
+    double vector_len1_thread[num_threads];
+    double vector_len2_thread[num_threads];
+    double correlation_thread[num_threads];
+    
+    omp_set_num_threads(num_threads);
+    // Run the entire section in parallel for `num_threads` threads
+    #pragma omp parallel
+    {
+        int thread_id = omp_get_thread_num();
+        // Initialise values for this thread
+        p1_thread[thread_id] = 0; p2_thread[thread_id] = 0;
+        vector_len1_thread[thread_id] = 0; vector_len2_thread[thread_id] = 0;
+        correlation_thread[thread_id] = 0;
+        while(p1_thread[thread_id] < b1_count_thread[thread_id] && p2_thread[thread_id] < b2_count_thread[thread_id])
+        {
+            long n1 = b1->ti[p1_thread[thread_id]];
+            long n2 = b2->ti[p2_thread[thread_id]];
+            
+            if (n1 < n2)
+            {
+                double t1 = b1->tv[p1_thread[thread_id]];
+                #pragma omp critical
+                {
+                    vector_len1_thread[thread_id] += (t1 * t1);
+                    p1_thread[thread_id]++;
+                }
+            }
+            else if (n2 < n1)
+            {
+                double t2 = b2->tv[p2_thread[thread_id]];
+                #pragma omp critical
+                {
+                    vector_len2_thread[thread_id] += (t2 * t2);
+                    p2_thread[thread_id]++;
+                }
+            }
+            else
+            {
+                #pragma omp critical
+                {
+                    double t1 = b1->tv[p1_thread[thread_id]++];
+                    double t2 = b2->tv[p2_thread[thread_id]++];
+                    vector_len1_thread[thread_id] += (t1 * t1);
+                    vector_len2_thread[thread_id] += (t2 * t2);
+                    correlation_thread[thread_id] += t1 * t2;
+                }
+            }
+        }
+        while(p1_thread[thread_id] < b1_count_thread[thread_id])
+        {
+            #pragma omp critical
+            {
+                double t1 = b1->tv[p1_thread[thread_id]++];
+                vector_len1_thread[thread_id] += (t1 * t1);
+            }
+        }
+        while(p2_thread[thread_id] < b2_count_thread[thread_id])
+        {
+            #pragma omp critical
+            {
+                double t2 = b2->tv[p2_thread[thread_id]++];
+                vector_len2_thread[thread_id] += (t2 * t2);
+            }
+        }
+    }
+    
+    for(int i =0; i<num_threads; i++)
+    {
+        correlation += correlation_thread[i];
+        vector_len1 += vector_len1_thread[i];
+        vector_len2 += vector_len2_thread[i];
+    }
+
+    return correlation / (sqrt(vector_len1) * sqrt(vector_len2));
+}
+
+double CompareBacteria_parallel_2(int num_threads, Bacteria* b1, Bacteria* b2)
+{
+    double correlation = 0;
+    double vector_len1 = 0;
+    double vector_len2 = 0;
+    long p1 = 0;
+    long p2 = 0;
+
+    #pragma omp parallel num_threads(num_threads) shared(correlation, vector_len1, vector_len2, p1, p2)
+    {
+        #pragma omp for reduction(+:correlation) reduction(+:vector_len1) reduction(+:vector_len2)
+        for (int i = 0; i < num_threads; i++) {
+            long local_p1 = p1;
+            long local_p2 = p2;
+            double local_vector_len1 = 0;
+            double local_vector_len2 = 0;
+            double local_correlation = 0;
+
+            while (local_p1 < b1->count && local_p2 < b2->count)
+            {
+                long n1 = b1->ti[local_p1];
+                long n2 = b2->ti[local_p2];
+
+                if (n1 < n2)
+                {
+                    double t1 = b1->tv[local_p1];
+                    local_vector_len1 += (t1 * t1);
+                    local_p1++;
+                }
+                else if (n2 < n1)
+                {
+                    double t2 = b2->tv[local_p2];
+                    local_p2++;
+                    local_vector_len2 += (t2 * t2);
+                }
+                else
+                {
+                    double t1 = b1->tv[local_p1++];
+                    double t2 = b2->tv[local_p2++];
+                    local_vector_len1 += (t1 * t1);
+                    local_vector_len2 += (t2 * t2);
+                    local_correlation += t1 * t2;
+                }
+            }
+
+            while (local_p1 < b1->count)
+            {
+                double t1 = b1->tv[local_p1++];
+                local_vector_len1 += (t1 * t1);
+            }
+            while (local_p2 < b2->count)
+            {
+                double t2 = b2->tv[local_p2++];
+                local_vector_len2 += (t2 * t2);
+            }
+
+            // Update the shared variables with thread-local results
+            #pragma omp critical
+            {
+                correlation += local_correlation;
+                vector_len1 += local_vector_len1;
+                vector_len2 += local_vector_len2;
+                p1 = local_p1;
+                p2 = local_p2;
+            }
+        }
+    }
+
+    return correlation / (sqrt(vector_len1) * sqrt(vector_len2));
+}
+
+double CompareBacteria_parallel_3(int num_threads, Bacteria* b1, Bacteria* b2)
+{
+    double correlation = 0;
+    double vector_len1 = 0;
+    double vector_len2 = 0;
+    long p1 = 0;
+    long p2 = 0;
+    
+    // Shared variables for reduction
+    double local_correlation = 0;
+    double local_vector_len1 = 0;
+    double local_vector_len2 = 0;
+
+    #pragma omp parallel num_threads(num_threads) private(local_correlation, local_vector_len1, local_vector_len2) shared(correlation, vector_len1, vector_len2, p1, p2)
+    {
+        #pragma omp for
+        for (int i = 0; i < num_threads; i++) {
+            long local_p1 = 0;
+            long local_p2 = 0;
+
+            double thread_local_correlation = 0;
+            double thread_local_vector_len1 = 0;
+            double thread_local_vector_len2 = 0;
+
+            while (local_p1 < b1->count && local_p2 < b2->count)
+            {
+                long n1 = b1->ti[local_p1];
+                long n2 = b2->ti[local_p2];
+
+                if (n1 < n2)
+                {
+                    double t1 = b1->tv[local_p1];
+                    thread_local_vector_len1 += (t1 * t1);
+                    local_p1++;
+                }
+                else if (n2 < n1)
+                {
+                    double t2 = b2->tv[local_p2];
+                    thread_local_vector_len2 += (t2 * t2);
+                    local_p2++;
+                }
+                else
+                {
+                    double t1 = b1->tv[local_p1++];
+                    double t2 = b2->tv[local_p2++];
+                    thread_local_vector_len1 += (t1 * t1);
+                    thread_local_vector_len2 += (t2 * t2);
+                    thread_local_correlation += t1 * t2;
+                }
+            }
+
+            // Accumulate thread-local results
+            #pragma omp critical
+            {
+                local_correlation += thread_local_correlation;
+                local_vector_len1 += thread_local_vector_len1;
+                local_vector_len2 += thread_local_vector_len2;
+                p1 += local_p1;
+                p2 += local_p2;
+            }
+        }
+    }
+
+    // Combine the results from all threads
+    #pragma omp master
+    {
+        correlation = local_correlation;
+        vector_len1 = local_vector_len1;
+        vector_len2 = local_vector_len2;
+    }
+
+    // Ensure all threads have completed before calculating the final result
+//    #pragma omp barrier
+
+    return correlation / (sqrt(vector_len1) * sqrt(vector_len2));
+}
+
+
 void CompareAllBacteria()
 {
-    int num_threads = 6;
+    int num_threads = 8;
     // Para-02-version-1-start: A bit more work, partition loading into independent sections
     // each nested for loop is its own, independent
 //    int partitions = 3; // totalThreads - 1: Can be maximum of 7
@@ -311,26 +568,36 @@ void CompareAllBacteria()
     
     // Para-02-version-2: Same speedup compared to version-1
     Bacteria** b = new Bacteria*[number_bacteria];
+    
+    time_t t1 = time(NULL);
     #pragma omp parallel for num_threads(num_threads)
     for (int i = 0; i<number_bacteria; i++)
     {
         printf("load %d of %d RUNNING ON THREAD: %d \n", i + 1, number_bacteria, omp_get_thread_num());
         b[i] = new Bacteria(bacteria_name[i]);
     }
+    time_t t2 = time(NULL);
+    printf("Loading Bacteria: %ld seconds\n", t2 - t1);
     
-    num_threads = 4;
     // Para-01: Straightforward parallelisation
+    time_t t3 = time(NULL);
     vector<tuple<int, int, double>> correlations;
     #pragma omp parallel for num_threads(num_threads)
     for(int i=0; i<number_bacteria-1; i++)
     {
         // 13 seconds with Para-01 here & Para-02
+//        #pragma omp parallel for num_threads(2)
         for(int j=i+1; j<number_bacteria; j++)
         {
             double correlation = CompareBacteria(b[i], b[j]);
+//            double correlation = CompareBacteria_parallel_2(2, b[i], b[j]);
             correlations.push_back(make_tuple(i, j, correlation));
         }
     }
+    time_t t4 = time(NULL);
+    printf("CompareBacteria: %ld seconds\n", t4 - t3);
+    
+    time_t t5 = time(NULL);
     // Sort the correlations vector based on i and j before printing
     sort(correlations.begin(), correlations.end(),[](const tuple<int, int, double>& a, const std::tuple<int, int, double>& b) {
         int ai, aj, bi, bj;
@@ -350,10 +617,25 @@ void CompareAllBacteria()
         tie(i, j, correlation) = tuple;
         printf("%2d %2d -> %.20lf\n", i, j, correlation);
     }
+    time_t t6 = time(NULL);
+    printf("Printing Compare: %ld seconds\n", t6 - t5);
+}
+
+void Delay()
+{
+    // Delay to open profiler
+    cout << "Start of delayed method" << endl;
+
+    // Delay for 10 seconds
+    this_thread::sleep_for(chrono::seconds(10));
+
+    // Continue with the work after the delay
+    cout << "End of delayed method" << endl;
 }
 
 int main(int argc,char * argv[])
 {
+    Delay();
     time_t t1 = time(NULL);
 
     Init();
@@ -364,3 +646,4 @@ int main(int argc,char * argv[])
     printf("time elapsed: %ld seconds\n", t2 - t1);
     return 0;
 }
+
