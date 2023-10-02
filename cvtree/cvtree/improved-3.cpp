@@ -58,7 +58,7 @@ public:
     double* tv;
     long *ti;
     
-    Bacteria_2(char* filename)
+    Bacteria_2(int num_threads, char* filename)
     {
         // Variables
         long* vector;
@@ -129,39 +129,49 @@ public:
         count = 0;
         double* t = new double[M];
         
-        for(long i=0; i<M; i++)
+        // Para-04: Parallelise in a straightforward way
+        #pragma omp parallel num_threads(num_threads)
         {
-            double p1 = second_div_total[i_div_aa_number];
-            double p2 = one_l_div_total[i_mod_aa_number];
-            double p3 = second_div_total[i_mod_M1];
-            double p4 = one_l_div_total[i_div_M1];
-            double stochastic =  (p1 * p2 + p3 * p4) * total_div_2;
-            
-            if (i_mod_aa_number == AA_NUMBER-1)
-            {
-                i_mod_aa_number = 0;
-                i_div_aa_number++;
+            long local_i_mod_aa_number = i_mod_aa_number;
+            long local_i_div_aa_number = i_div_aa_number;
+            long local_i_mod_M1 = i_mod_M1;
+            long local_i_div_M1 = i_div_M1;
+            int local_count = 0;
+
+            #pragma omp for
+            for (long i = 0; i < M; i++) {
+                double p1 = second_div_total[local_i_div_aa_number];
+                double p2 = one_l_div_total[local_i_mod_aa_number];
+                double p3 = second_div_total[local_i_mod_M1];
+                double p4 = one_l_div_total[local_i_div_M1];
+                double stochastic = (p1 * p2 + p3 * p4) * total_div_2;
+
+                if (local_i_mod_aa_number == AA_NUMBER - 1) {
+                    local_i_mod_aa_number = 0;
+                    local_i_div_aa_number++;
+                } else {
+                    local_i_mod_aa_number++;
+                }
+
+                if (local_i_mod_M1 == M1 - 1) {
+                    local_i_mod_M1 = 0;
+                    local_i_div_M1++;
+                } else {
+                    local_i_mod_M1++;
+                }
+
+                if (stochastic > EPSILON) {
+                    t[i] = (vector[i] - stochastic) / stochastic;
+                    local_count++;
+                } else {
+                    t[i] = 0;
+                }
             }
-            else
-                i_mod_aa_number++;
-            
-            if (i_mod_M1 == M1-1)
-            {
-                i_mod_M1 = 0;
-                i_div_M1++;
-            }
-            else
-                i_mod_M1++;
-            
-            if (stochastic > EPSILON)
-            {
-                t[i] = (vector[i] - stochastic) / stochastic;
-                count++;
-            }
-            else
-                t[i] = 0;
+
+            // Aggregate local counts if needed
+            #pragma omp atomic
+            count += local_count;
         }
-        
         // Reset values
         delete[] second_div_total;
         delete vector;
@@ -173,6 +183,9 @@ public:
         ti = new long[count];
         
         int pos = 0;
+        
+        // Para-05
+        #pragma omp parallel for num_threads(num_threads)
         for (long i=0; i<M; i++)
         {
             if (t[i] != 0)
@@ -291,7 +304,7 @@ public:
     double* tv;
     long *ti;
     
-    void Calculate(char* filename)
+    Bacteria(int num_threads, char* filename)
     {
         string directory = "/Users/Shridhar/Library/Developer/Xcode/XCodeProjects/CAB401_Project/cvtree/cvtree/data/";
         string filePath = directory.append(filename);
@@ -339,7 +352,7 @@ public:
         double* t = new double[M];
         
         // Para-04: Parallelise in a straightforward way
-        omp_set_num_threads(8);
+        omp_set_num_threads(num_threads);
         #pragma omp parallel
         {
             long local_i_mod_aa_number = i_mod_aa_number;
@@ -395,7 +408,7 @@ public:
         
         int pos = 0;
         // Para-05
-        #pragma omp parallel for num_threads(8)
+        #pragma omp parallel for num_threads(num_threads)
         for (long i=0; i<M; i++)
         {
             if (t[i] != 0)
@@ -408,11 +421,6 @@ public:
         delete[] t;
         
         fclose (bacteria_file);
-    }
-    
-    Bacteria(char* filename)
-    {
-        Calculate(filename);
     }
 };
 
@@ -746,7 +754,7 @@ double CompareBacteria_parallel_3(int num_threads, Bacteria* b1, Bacteria* b2)
 
 void CompareAllBacteria()
 {
-    int num_threads = 1;
+    int num_threads = 8;
     // Para-02-version-1-start: A bit more work, partition loading into independent sections
     // each nested for loop is its own, independent
 //    int partitions = 3; // totalThreads - 1: Can be maximum of 7
@@ -808,8 +816,8 @@ void CompareAllBacteria()
     // num_threads = 15: 15 seconds
     // num_threads = 16: 15 seconds
         
-    Bacteria** b = new Bacteria*[number_bacteria];
-//    Bacteria_2** b_2 = new Bacteria_2*[number_bacteria];
+//    Bacteria** b = new Bacteria*[number_bacteria];
+    Bacteria_2** b_2 = new Bacteria_2*[number_bacteria];
 
 //    Bacteria Timing
 //    Sequential
@@ -843,8 +851,8 @@ void CompareAllBacteria()
     for (int i = 0; i<number_bacteria; i++)
     {
         printf("load %d of %d RUNNING ON THREAD: %d \n", i + 1, number_bacteria, omp_get_thread_num()+1);
-        b[i] = new Bacteria(bacteria_name[i]);
-//        b_2[i] = new Bacteria_2(bacteria_name[i]);
+//        b[i] = new Bacteria(num_threads, bacteria_name[i]);
+        b_2[i] = new Bacteria_2(num_threads, bacteria_name[i]);
     }
     time_t t2 = time(NULL);
     printf("Loading Bacteria: %ld seconds\n", t2 - t1);
@@ -852,15 +860,15 @@ void CompareAllBacteria()
     // Para-01: Straightforward parallelisation
     time_t t3 = time(NULL);
     vector<tuple<int, int, double>> correlations;
-//    #pragma omp parallel for num_threads(num_threads/2)
+    #pragma omp parallel for num_threads(num_threads)
     for(int i=0; i<number_bacteria-1; i++)
     {
         // 13 seconds with Para-01 here & Para-02
         #pragma omp parallel for num_threads(2)
         for(int j=i+1; j<number_bacteria; j++)
         {
-            double correlation = CompareBacteria(b[i], b[j]);
-//            double correlation = CompareBacteria_2(b_2[i], b_2[j]);
+//            double correlation = CompareBacteria(b[i], b[j]);
+            double correlation = CompareBacteria_2(b_2[i], b_2[j]);
 //            double correlation = CompareBacteria_parallel_2(2, b[i], b[j]);
             correlations.push_back(make_tuple(i, j, correlation));
         }
