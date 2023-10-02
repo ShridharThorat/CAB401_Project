@@ -247,12 +247,51 @@ double CompareBacteria(Bacteria* b1, Bacteria* b2)
 
 void CompareAllBacteria()
 {
+    int num_threads = 6;
     // Para-02-version-1-start: A bit more work, partition loading into independent sections
     // each nested for loop is its own, independent
-    int partitions = 3; // totalThreads - 1: Can be maximum of 7
-    vector<thread> threads;
-    
-    int num_threads = 6;
+//    int partitions = 3; // totalThreads - 1: Can be maximum of 7
+//    vector<thread> threads;
+//    
+//    Bacteria** b = new Bacteria*[number_bacteria];
+//    int start = 0;
+//    int end = 0;
+//    for(int i=0; i<partitions; ++i)
+//    {
+//        start = i*(number_bacteria/partitions);
+//        end = (i+1) * (number_bacteria/partitions);
+//        
+//        threads.emplace_back([start,end, b]()
+//        {
+//            for(int j = start; j <end; j++)
+//            {
+//                printf("load %d of %d\n", j+1, number_bacteria);
+//                b[j] = new Bacteria(bacteria_name[j]);
+//            }
+//        });
+//    }
+//    // Wait for threads to finish: prevents errors, bugs and 'kills' threads
+//    // Failing to join the threads can lead to issues like accessing resources that are being modified by the
+//    //      threads or not properly releasing thread-related resources, causing errors and unexpected behavior.
+//    // When you join the threads, you are essentially waiting for each thread to finish its work before continuing
+//    //      with the rest of the program. This ensures that all threads have completed their tasks before you
+//    //      proceed with any further actions that depend on the results of those threads.
+//    for (auto& thread : threads)
+//    {
+//        thread.join();
+//    }
+//    
+//    // Do left over sequentially
+//    if(end!=number_bacteria)
+//    {
+//        for(int k=end; k<number_bacteria;k++)
+//        {
+//            printf("leftover load %d of %d\n", k+1, number_bacteria);
+//            b[k] = new Bacteria(bacteria_name[k]);
+//        }
+//    }
+    // Para-02-version-1-end
+        
     // num_threads = 01: 32 seconds
     // num_threads = 02: 21 seconds
     // num_threads = 03: 16 seconds
@@ -279,8 +318,9 @@ void CompareAllBacteria()
         b[i] = new Bacteria(bacteria_name[i]);
     }
     
-    
+    num_threads = 4;
     // Para-01: Straightforward parallelisation
+    vector<tuple<int, int, double>> correlations;
     #pragma omp parallel for num_threads(num_threads)
     for(int i=0; i<number_bacteria-1; i++)
     {
@@ -288,8 +328,27 @@ void CompareAllBacteria()
         for(int j=i+1; j<number_bacteria; j++)
         {
             double correlation = CompareBacteria(b[i], b[j]);
-            printf("%2d %2d -> %.20lf\n", i, j, correlation);
+            correlations.push_back(make_tuple(i, j, correlation));
         }
+    }
+    // Sort the correlations vector based on i and j before printing
+    sort(correlations.begin(), correlations.end(),[](const tuple<int, int, double>& a, const std::tuple<int, int, double>& b) {
+        int ai, aj, bi, bj;
+        tie(ai, aj, std::ignore) = a;
+        tie(bi, bj, std::ignore) = b;
+        if (ai != bi) {
+            return ai < bi;
+        } else {
+            return aj < bj;
+        }
+    });
+    
+    // Print the results sequentially
+    for (const auto& tuple : correlations) {
+        int i, j;
+        double correlation;
+        tie(i, j, correlation) = tuple;
+        printf("%2d %2d -> %.20lf\n", i, j, correlation);
     }
 }
 
