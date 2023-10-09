@@ -134,7 +134,7 @@
 //		delete second;
 //	}
 //
-//    // returns the amount of times we expect to see kmer i
+//    // TODO: NOTE: returns the amount of times we expect to see kmer i
 //    // this is based on (k-1)-mer and 1-mer
 //    // TODO: NOTE: Example
 //    // line 740 `AcMNPV.faa`

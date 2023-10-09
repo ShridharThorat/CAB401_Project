@@ -23,6 +23,8 @@
 //#include <omp.h>
 #include <vector>
 #include <thread>
+#include <os/log.h>
+#include <os/signpost.h>
 
 //#include <os/signpost.h>
 //#include <os/log.h>
