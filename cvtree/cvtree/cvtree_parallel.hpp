@@ -22,12 +22,11 @@
 #include "/opt/homebrew/Cellar/libomp/16.0.6/include/omp.h"
 //#include <omp.h>
 #include <vector>
+#include <tuple>
 #include <thread>
 #include <os/log.h>
 #include <os/signpost.h>
-
-//#include <os/signpost.h>
-//#include <os/log.h>
+#include <algorithm>
 
 // Macros
 #define encode(ch) code[ch-'A']

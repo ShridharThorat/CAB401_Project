@@ -12,8 +12,15 @@
 		0497D8CF2AACA61D007D62C0 /* tidy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8C92AACA61D007D62C0 /* tidy.cpp */; };
 		0497D8D02AACA61D007D62C0 /* improved.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0497D8CC2AACA61D007D62C0 /* improved.cpp */; };
 		049E23C42ACBD7840024D3FA /* improved-4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 049E23C32ACBD7840024D3FA /* improved-4.cpp */; };
+		04A36B692ADD06EB00FC2077 /* improved-og.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04A36B682ADD06EB00FC2077 /* improved-og.cpp */; };
+		04B0CC112AD8D82800E4EEC9 /* improved-section1_para02_vectors_experiment.cp in Sources */ = {isa = PBXBuildFile; fileRef = 04B0CC102AD8D82800E4EEC9 /* improved-section1_para02_vectors_experiment.cp */; };
+		04B0CC132AD8F90400E4EEC9 /* improved-section2_para02_vectors_para01.cp in Sources */ = {isa = PBXBuildFile; fileRef = 04B0CC122AD8F90400E4EEC9 /* improved-section2_para02_vectors_para01.cp */; };
+		04BE12532AD7E9B0009409EF /* improved-section1_para02_vectors.cp in Sources */ = {isa = PBXBuildFile; fileRef = 04BE12522AD7E9B0009409EF /* improved-section1_para02_vectors.cp */; };
 		04C270C12AB985D1007C8D60 /* libomp.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04AA9E9B2AB0015F003A1BA6 /* libomp.dylib */; };
 		04C270C32AB999BB007C8D60 /* improved-3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C270C22AB999BB007C8D60 /* improved-3.cpp */; };
+		04C84F242AD7D771001F2571 /* improved-section1_para02.cp in Sources */ = {isa = PBXBuildFile; fileRef = 04C84F232AD7D771001F2571 /* improved-section1_para02.cp */; };
+		04C84F262AD7DA88001F2571 /* improved-section1_para02_vectors_para04.cp in Sources */ = {isa = PBXBuildFile; fileRef = 04C84F252AD7DA88001F2571 /* improved-section1_para02_vectors_para04.cp */; };
+		04D114E52ADAB7A800BD52FC /* improved-section1_para02_vectors_retention.cp in Sources */ = {isa = PBXBuildFile; fileRef = 04D114E42ADAB7A800BD52FC /* improved-section1_para02_vectors_retention.cp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,8 +48,15 @@
 		0497D8CC2AACA61D007D62C0 /* improved.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = improved.cpp; sourceTree = "<group>"; };
 		0497D8CD2AACA61D007D62C0 /* cvtree_parallel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cvtree_parallel.hpp; sourceTree = "<group>"; };
 		049E23C32ACBD7840024D3FA /* improved-4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "improved-4.cpp"; sourceTree = "<group>"; };
+		04A36B682ADD06EB00FC2077 /* improved-og.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "improved-og.cpp"; sourceTree = "<group>"; };
 		04AA9E9B2AB0015F003A1BA6 /* libomp.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libomp.dylib; path = ../../../../../../../../opt/homebrew/Cellar/libomp/16.0.6/lib/libomp.dylib; sourceTree = "<group>"; };
+		04B0CC102AD8D82800E4EEC9 /* improved-section1_para02_vectors_experiment.cp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "improved-section1_para02_vectors_experiment.cp"; sourceTree = "<group>"; };
+		04B0CC122AD8F90400E4EEC9 /* improved-section2_para02_vectors_para01.cp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "improved-section2_para02_vectors_para01.cp"; sourceTree = "<group>"; };
+		04BE12522AD7E9B0009409EF /* improved-section1_para02_vectors.cp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "improved-section1_para02_vectors.cp"; sourceTree = "<group>"; };
 		04C270C22AB999BB007C8D60 /* improved-3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "improved-3.cpp"; sourceTree = "<group>"; };
+		04C84F232AD7D771001F2571 /* improved-section1_para02.cp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "improved-section1_para02.cp"; sourceTree = "<group>"; };
+		04C84F252AD7DA88001F2571 /* improved-section1_para02_vectors_para04.cp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "improved-section1_para02_vectors_para04.cp"; sourceTree = "<group>"; };
+		04D114E42ADAB7A800BD52FC /* improved-section1_para02_vectors_retention.cp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "improved-section1_para02_vectors_retention.cp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +96,13 @@
 				0497D8CD2AACA61D007D62C0 /* cvtree_parallel.hpp */,
 				0497D8C52AACA61D007D62C0 /* data */,
 				0497D8CC2AACA61D007D62C0 /* improved.cpp */,
+				04C84F252AD7DA88001F2571 /* improved-section1_para02_vectors_para04.cp */,
+				04C84F232AD7D771001F2571 /* improved-section1_para02.cp */,
+				04BE12522AD7E9B0009409EF /* improved-section1_para02_vectors.cp */,
+				04D114E42ADAB7A800BD52FC /* improved-section1_para02_vectors_retention.cp */,
+				04B0CC122AD8F90400E4EEC9 /* improved-section2_para02_vectors_para01.cp */,
+				04B0CC102AD8D82800E4EEC9 /* improved-section1_para02_vectors_experiment.cp */,
+				04A36B682ADD06EB00FC2077 /* improved-og.cpp */,
 				0497D8CA2AACA61D007D62C0 /* Information.md */,
 				0497D8C82AACA61D007D62C0 /* list.txt */,
 				0497D8CB2AACA61D007D62C0 /* improved.chpl */,
@@ -158,12 +179,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04B0CC112AD8D82800E4EEC9 /* improved-section1_para02_vectors_experiment.cp in Sources */,
 				04C270C32AB999BB007C8D60 /* improved-3.cpp in Sources */,
+				04C84F242AD7D771001F2571 /* improved-section1_para02.cp in Sources */,
 				0497D8BF2AACA5C3007D62C0 /* improved-seq.cpp in Sources */,
+				04D114E52ADAB7A800BD52FC /* improved-section1_para02_vectors_retention.cp in Sources */,
 				0497D8CE2AACA61D007D62C0 /* cvtree_parallel.cpp in Sources */,
 				0497D8CF2AACA61D007D62C0 /* tidy.cpp in Sources */,
+				04BE12532AD7E9B0009409EF /* improved-section1_para02_vectors.cp in Sources */,
 				049E23C42ACBD7840024D3FA /* improved-4.cpp in Sources */,
+				04A36B692ADD06EB00FC2077 /* improved-og.cpp in Sources */,
+				04B0CC132AD8F90400E4EEC9 /* improved-section2_para02_vectors_para01.cp in Sources */,
 				0497D8D02AACA61D007D62C0 /* improved.cpp in Sources */,
+				04C84F262AD7DA88001F2571 /* improved-section1_para02_vectors_para04.cp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

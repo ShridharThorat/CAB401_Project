@@ -8,6 +8,8 @@
 //#include <chrono>
 //#include <iostream>
 //#include <fstream>
+//#include <os/log.h>
+//#include <os/signpost.h>
 //using namespace std;
 //
 //int number_bacteria;
@@ -59,10 +61,8 @@
 //        {
 //            short enc = encode(buffer[i]);
 //            one_l[enc]++;
-////            cout << "enc " << i <<": is "<< enc << endl; // debugging
 //            total_l++;
 //            indexs = indexs * AA_NUMBER + enc;
-////            cout << "indexs " << i <<": is "<< indexs << endl; // debugging
 //        }
 //        second[indexs]++;
 //    }
@@ -234,9 +234,6 @@
 //
 //double CompareBacteria(Bacteria* b1, Bacteria* b2)
 //{
-////    cout << endl;
-////    cout << "b1 count: " << b1->count << endl;
-////    cout << "b2 count: " << b2->count << endl;
 //    double correlation = 0;
 //    double vector_len1=0;
 //    double vector_len2=0;
@@ -285,13 +282,26 @@
 //
 //void CompareAllBacteria()
 //{
+//    int num_threads = 8;
+//    os_log_t loadLog = os_log_create("cvtree", "loadingLogger");
+//    os_log_t compareLog = os_log_create("cvtree", "compareLogger");
+//    
 //    Bacteria** b = new Bacteria*[number_bacteria];
+//    
+//    time_t t1 = time(NULL);
+//    os_signpost_interval_begin(loadLog,1, "Load Bacteria");
+//    #pragma omp parallel for num_threads(num_threads)
 //    for(int i=0; i<number_bacteria; i++)
 //    {
 //        printf("load %d of %d\n", i+1, number_bacteria);
 //        b[i] = new Bacteria(bacteria_name[i]);
 //    }
+//    os_signpost_interval_end(loadLog,1, "Load Bacteria");
+//    time_t t2 = time(NULL);
+//    printf("Loading Bacteria: %ld seconds\n", t2 - t1);
 //
+//    time_t t3 = time(NULL);
+//    os_signpost_interval_begin(compareLog,2, "Compare Bacteria");
 //    for(int i=0; i<number_bacteria-1; i++)
 //    {
 //        for(int j=i+1; j<number_bacteria; j++)
@@ -301,6 +311,9 @@
 //            printf("%.20lf\n", correlation);
 //        }
 //    }
+//    os_signpost_interval_end(compareLog,2, "Compare Bacteria");
+//    time_t t4 = time(NULL);
+//    printf("CompareBacteria: %ld seconds\n", t4 - t3);
 //}
 //
 //int main(int argc,char * argv[])
